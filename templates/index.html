@@ -8,6 +8,34 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Custom styles for sliding effect */
+        .question-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            overflow: visible;
+            width: 100%;
+        }
+
+        .question-slide {
+            flex: 0 0 100%; /* Full width for each slide */
+            box-sizing: border-box;
+            padding: 0 15px; /* Adjust spacing as needed */
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #questionSection {
+            display: none; /* Initially hidden */
+        }
+    </style>
 </head>
 <body class="bg-image">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,46 +49,68 @@
         </div>
     </nav>
     
-    <div class="container mt-4 bg-light p-4 rounded shadow">
+    <div class="container mt-4">
         <h1 class="mb-4 text-center">Personality Assessment</h1>
-        <form action="/" method="POST">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" class="form-control" required>
-            </div>
-            
-            {% for question in questions %}
+        <form action="/" method="POST" id="assessmentForm">
+            <!-- Initial Fields -->
+            <div id="initialFields">
                 <div class="form-group">
-                    <p>{{ loop.index }}. {{ question }}</p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="sa_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Agree" required>
-                        <label class="form-check-label" for="sa_{{ loop.index }}">Strongly Agree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="a_{{ loop.index }}" name="question_{{ loop.index }}" value="Agree">
-                        <label class="form-check-label" for="a_{{ loop.index }}">Agree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="n_{{ loop.index }}" name="question_{{ loop.index }}" value="Neutral">
-                        <label class="form-check-label" for="n_{{ loop.index }}">Neutral</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="d_{{ loop.index }}" name="question_{{ loop.index }}" value="Disagree">
-                        <label class="form-check-label" for="d_{{ loop.index }}">Disagree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="sd_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Disagree">
-                        <label class="form-check-label" for="sd_{{ loop.index }}">Strongly Disagree</label>
-                    </div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
                 </div>
-            {% endfor %}
+                
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" class="form-control" required>
+                </div>
+
+                <button type="button" id="startQuestions" class="btn btn-dark">Start Questions</button>
+            </div>
             
-            <button type="submit" class="btn btn-dark">Submit</button>
+            <!-- Questions Section -->
+            <div id="questionSection">
+                <div class="question-container" id="questionContainer">
+                    {% for question in questions %}
+                        {% if loop.index % 2 == 1 %}
+                            <div class="question-slide">
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <p>{{ loop.index }}. {{ question }}</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="sa_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Agree" required>
+                                <label class="form-check-label" for="sa_{{ loop.index }}">Strongly Agree</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="a_{{ loop.index }}" name="question_{{ loop.index }}" value="Agree">
+                                <label class="form-check-label" for="a_{{ loop.index }}">Agree</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="n_{{ loop.index }}" name="question_{{ loop.index }}" value="Neutral">
+                                <label class="form-check-label" for="n_{{ loop.index }}">Neutral</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="d_{{ loop.index }}" name="question_{{ loop.index }}" value="Disagree">
+                                <label class="form-check-label" for="d_{{ loop.index }}">Disagree</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="sd_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Disagree">
+                                <label class="form-check-label" for="sd_{{ loop.index }}">Strongly Disagree</label>
+                            </div>
+                        </div>
+                        
+                        {% if loop.index % 2 == 0 or loop.index == questions|length %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <div class="btn-group mt-4">
+                    <button type="button" id="prevBtn" class="btn btn-dark" disabled>Previous</button>
+                    <button type="button" id="nextBtn" class="btn btn-dark">Next</button>
+                    <button type="submit" id="submitBtn" class="btn btn-dark" style="display: none;">Submit</button>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -68,5 +118,55 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('questionContainer');
+            const slides = container.children;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const startQuestionsBtn = document.getElementById('startQuestions');
+            const questionSection = document.getElementById('questionSection');
+            const initialFields = document.getElementById('initialFields');
+            let currentIndex = 0;
+
+            function updateButtons() {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.style.display = currentIndex === slides.length - 1 ? 'none' : 'inline-block';
+                submitBtn.style.display = currentIndex === slides.length - 1 ? 'inline-block' : 'none';
+            }
+
+            function showSlide(index) {
+                container.style.transform = `translateX(-${index * 100}%)`;
+                updateButtons();
+            }
+
+            startQuestionsBtn.addEventListener('click', function () {
+                if (document.getElementById('name').value && document.getElementById('age').value) {
+                    initialFields.style.display = 'none';
+                    questionSection.style.display = 'block';
+                    showSlide(currentIndex);
+                } else {
+                    alert('Please fill out your name and age before starting the questions.');
+                }
+            });
+
+            prevBtn.addEventListener('click', function () {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    showSlide(currentIndex);
+                }
+            });
+
+            nextBtn.addEventListener('click', function () {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    showSlide(currentIndex);
+                }
+            });
+
+            showSlide(currentIndex); // Initial call to set up the buttons
+        });
+    </script>
 </body>
 </html>

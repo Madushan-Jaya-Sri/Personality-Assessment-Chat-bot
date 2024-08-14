@@ -1,31 +1,31 @@
 /* styles.css */
 
-/* Background image */
+/* Background image for the body */
 .bg-image {
-    background-image: url('/static/background.jpg'); /* Ensure the background image is in the static directory */
+    background-image: url('/static/background.jpeg'); /* Ensure this path is correct */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    color: white; /* Default text color for better contrast */
+    height: 100vh; /* Full viewport height */
+    margin: 0;
 }
 
-/* Custom styles */
-body {
-    color: white;
+/* Custom styles for container */
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Light white background with 80% opacity */
+    color: #343a40; /* Dark gray text for readability */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
 }
 
+/* Styling for the navbar */
 .navbar {
     margin-bottom: 20px;
 }
 
-.container {
-    background-color: #f8f9fa;
-    color: #343a40;
-}
-
-h1 {
-    color: #343a40;
-}
-
+/* Additional styling for buttons */
 .btn-dark {
     background-color: #343a40;
     border-color: #343a40;
