@@ -1,0 +1,37 @@
+/* styles.css */
+
+/* Background image */
+.bg-image {
+    background-image: url('/static/background.jpg'); /* Ensure the background image is in the static directory */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Custom styles */
+body {
+    color: white;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.container {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.btn-dark {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.btn-dark:hover {
+    background-color: #23272b;
+    border-color: #1d2124;
+}

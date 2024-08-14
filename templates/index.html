@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Assessment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="bg-image">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Personality Assessment</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('history') }}">History</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-4 bg-light p-4 rounded shadow">
+        <h1 class="mb-4 text-center">Personality Assessment</h1>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" class="form-control" required>
+            </div>
+            
+            {% for question in questions %}
+                <div class="form-group">
+                    <p>{{ loop.index }}. {{ question }}</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="sa_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Agree" required>
+                        <label class="form-check-label" for="sa_{{ loop.index }}">Strongly Agree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="a_{{ loop.index }}" name="question_{{ loop.index }}" value="Agree">
+                        <label class="form-check-label" for="a_{{ loop.index }}">Agree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="n_{{ loop.index }}" name="question_{{ loop.index }}" value="Neutral">
+                        <label class="form-check-label" for="n_{{ loop.index }}">Neutral</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="d_{{ loop.index }}" name="question_{{ loop.index }}" value="Disagree">
+                        <label class="form-check-label" for="d_{{ loop.index }}">Disagree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="sd_{{ loop.index }}" name="question_{{ loop.index }}" value="Strongly Disagree">
+                        <label class="form-check-label" for="sd_{{ loop.index }}">Strongly Disagree</label>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-dark">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
