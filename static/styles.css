@@ -2,7 +2,7 @@
 
 /* Background image for the body */
 .bg-image {
-    background-image: url('/static/background.jpeg'); /* Ensure this path is correct */
+    background-image: url('/static/backg2.webp'); /* Ensure this path is correct */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

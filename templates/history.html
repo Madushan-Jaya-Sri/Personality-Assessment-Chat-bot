@@ -8,8 +8,20 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .table-container {
+            max-height: 500px; /* Adjust this height as needed */
+            overflow-y: auto;
+        }
+        .table thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa; /* Match the table header background color */
+            z-index: 1;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-image">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Personality Assessment</a>
         <div class="collapse navbar-collapse">
@@ -26,30 +38,32 @@
 
     <div class="container mt-4">
         <h1 class="mb-4">User History</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Personality Type</th>
-                    <th>Score</th>
-                    <th>Description</th>
-                    <th>Date Created</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in histories %}
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.age }}</td>
-                        <td>{{ user.personality_type }}</td>
-                        <td>{{ user.score }}</td>
-                        <td>{{ user.description }}</td>
-                        <td>{{ user.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Personality Type</th>
+                        <th>Score</th>
+                        <th>Description</th>
+                        <th>Date Created</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for user in histories %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.age }}</td>
+                            <td>{{ user.personality_type }}</td>
+                            <td>{{ user.score }}</td>
+                            <td>{{ user.description }}</td>
+                            <td>{{ user.date_created.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
